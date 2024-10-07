@@ -48,3 +48,16 @@ class Pet(models.Model):
         return self.name
     
     
+class Adoption(models.Model):
+    data = models.DateField(auto_now=False, auto_now_add=True)
+    pet = models.ForeignKey(Pet, on_delete=models.CASCADE)
+    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
+    
+    def save(self, *args, **kwargs):
+        self.pet.adopted = True
+        self.pet.save()
+        super().save(*args, **kwargs)
+    
+    def __str__(self):
+        return self.id
+    

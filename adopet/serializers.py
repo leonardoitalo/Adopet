@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from adopet.models import Tutor, Shelter, Pet
+from adopet.models import Tutor, Shelter, Pet, Adoption
 
 class TutorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,4 +14,9 @@ class ShelterSerializer(serializers.ModelSerializer):
 class PetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pet
+        fields = '__all__'
+        
+class AdoptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Adoption
         fields = '__all__'
