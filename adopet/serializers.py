@@ -9,7 +9,7 @@ class TutorSerializer(serializers.ModelSerializer):
 class ShelterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Shelter
-        fields = ['name']
+        fields = ['id', 'name']
         
 class PetSerializer(serializers.ModelSerializer):
     class Meta:
