@@ -1,7 +1,15 @@
-from adopet.models import Tutor
-from adopet.serializers import TutorSerializer
+from adopet.models import Tutor, Shelter, Pet
+from adopet.serializers import TutorSerializer, ShelterSerializer, PetSerializer
 from rest_framework import viewsets
 
 class TutorsViewSet(viewsets.ModelViewSet):
     queryset = Tutor.objects.all()
     serializer_class = TutorSerializer
+    
+class SheltersViewSet(viewsets.ModelViewSet):
+    queryset = Shelter.objects.all()
+    serializer_class = ShelterSerializer
+    
+class PetsViewSet(viewsets.ModelViewSet):
+    queryset = Pet.objects.all()
+    serializer_class = PetSerializer

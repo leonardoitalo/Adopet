@@ -1,5 +1,5 @@
 from django.contrib import admin
-from adopet.models import Tutor, Pet
+from adopet.models import Tutor, Shelter, Pet
 
 class Tutors(admin.ModelAdmin):
     list_display = ('id', 'name', 'email',)
@@ -9,6 +9,13 @@ class Tutors(admin.ModelAdmin):
     
 admin.site.register(Tutor, Tutors)
 
+class Shelters(admin.ModelAdmin):
+    list_display = ('id', 'name',)
+    list_display_links = ('id', 'name',)
+    list_per_page = 10
+    
+admin.site.register(Shelter, Shelters)
+    
 class Pets(admin.ModelAdmin):
     list_display = ('id', 'name', 'age', 'size',)
     list_display_links = ('id', 'name',)
@@ -16,3 +23,4 @@ class Pets(admin.ModelAdmin):
     search_fields = ('name',)
     
 admin.site.register(Pet, Pets)
+
