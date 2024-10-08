@@ -28,7 +28,7 @@ class SheltersViewSet(viewsets.ModelViewSet):
             return Response({'detail': "Shelter not deleted"}, status=status.HTTP_400_BAD_REQUEST)
 
 class PetsViewSet(viewsets.ModelViewSet):
-    queryset = Pet.objects.all()
+    queryset = Pet.objects.filter(adopted=False)
     serializer_class = PetSerializer
 
     def list(self, request, *args, **kwargs):
@@ -50,7 +50,7 @@ class AdoptionsViewSet(viewsets.ModelViewSet):
     queryset = Adoption.objects.all()
     serializer_class = AdoptionSerializer
     permission_classes = [IsShelterAndCanDeleteAdoption]
-
+    
     def destroy(self, request, *args, **kwargs):
         try:     
             adoption = self.get_object()

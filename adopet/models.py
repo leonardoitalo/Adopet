@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+from .validators import validate_age
 
 class Tutor(models.Model):
     name = models.CharField(max_length=100, blank=False, unique=True)
@@ -11,10 +12,6 @@ class Tutor(models.Model):
         return self.name
     
     def clean(self):
-        # Validação do nome
-        if not self.name.isalpha():
-            raise ValidationError(_('Name must only contain alphabetic characters.'))
-
         # Validação da senha (mínimo de 8 caracteres)
         if len(self.password) < 8:
             raise ValidationError(_('Password must be at least 8 characters long.'))
@@ -31,22 +28,24 @@ class Shelter(models.Model):
 
 class Pet(models.Model):
     SIZE = (
-        ('SM', 'Small'),
+        ('S', 'Small'),
         ('M', 'Medium'),
         ('B', 'Big'),
+        ('SM', 'Small/Medium'),
+        ('MB', 'Medium/Big'),
     )
+
     name = models.CharField(max_length=100, blank=False)
-    age = models.CharField(max_length=100, blank=False)
+    age = models.CharField(max_length=10, blank=False, validators=[validate_age])
     size = models.CharField(max_length=2, choices=SIZE, blank=False, null=False, default='SM')
     description = models.CharField(max_length=100, blank=False, null=False)
     address = models.CharField(max_length=100, blank=False, null=False)
     adopted = models.BooleanField(blank=False, default=False)
     image = models.URLField(max_length=200, blank=False)
-    shelter = models.ForeignKey(Shelter, on_delete=models.CASCADE) # Many-to-one relationship
+    shelter = models.ForeignKey(Shelter, on_delete=models.CASCADE) # One-to-Many relationship
 
     def __str__(self):
         return self.name
-    
     
 class Adoption(models.Model):
     data = models.DateField(auto_now=False, auto_now_add=True)
@@ -59,6 +58,5 @@ class Adoption(models.Model):
         super().save(*args, **kwargs)
     
     def __str__(self):
-        return self.id
-    
+        return f"{self.tutor.name} adotou {self.pet.name}"
     
