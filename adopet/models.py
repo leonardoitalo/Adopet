@@ -1,7 +1,6 @@
 from django.db import models
 from django.core.validators import MinLengthValidator
 from django.utils.translation import gettext_lazy as _
-from .validators import validate_age
 
 class Tutor(models.Model):
     name = models.CharField(max_length=100, blank=False, unique=True)
@@ -27,7 +26,7 @@ class Pet(models.Model):
     )
 
     name = models.CharField(max_length=100, blank=False)
-    age = models.CharField(max_length=10, blank=False, validators=[validate_age])
+    age = models.CharField(max_length=10, blank=False)
     size = models.CharField(max_length=2, choices=SIZE, blank=False, null=False, default='SM')
     description = models.CharField(max_length=100, blank=False, null=False)
     address = models.CharField(max_length=100, blank=False, null=False)
