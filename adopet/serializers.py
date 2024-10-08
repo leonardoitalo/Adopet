@@ -1,15 +1,16 @@
 import re
 from rest_framework import serializers
 from adopet.models import Tutor, Shelter, Pet, Adoption
+from .validators import invalid_name, invalid_age
 
 class TutorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tutor
         fields = ['id', 'name', 'email', 'password']
     
-    def validate_name(self, name: str):
-        if not name.isalpha():
-            raise serializers.ValidationError('O nome só pode conter letras')
+    def validate(self, datas):
+        if invalid_name(datas['name']):
+            raise serializers.ValidationError({'name': 'O nome só pode conter letras'})
 
 class ShelterSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,11 +22,10 @@ class PetSerializer(serializers.ModelSerializer):
         model = Pet
         fields = '__all__'
     
-    def validate_age(self, age):
-        pattern = r'^\d+\s+(dias|meses|anos)$'  
-        if not re.match(pattern, age):
+    def validate(self, datas): 
+        if invalid_age(datas['age']):
             raise serializers.ValidationError(
-                'A idade deve estar no formato "X dias", "X meses" ou "X anos", onde X é um número.'
+                {'age': 'A idade deve estar no formato "X dias", "X meses" ou "X anos", onde X é um número.'}
             )
 
 class AdoptionSerializer(serializers.ModelSerializer):
