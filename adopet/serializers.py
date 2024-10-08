@@ -11,6 +11,7 @@ class TutorSerializer(serializers.ModelSerializer):
     def validate(self, datas):
         if invalid_name(datas['name']):
             raise serializers.ValidationError({'name': 'O nome só pode conter letras'})
+        return datas
 
 class ShelterSerializer(serializers.ModelSerializer):
     class Meta:
@@ -25,8 +26,9 @@ class PetSerializer(serializers.ModelSerializer):
     def validate(self, datas): 
         if invalid_age(datas['age']):
             raise serializers.ValidationError(
-                {'age': 'A idade deve estar no formato "X dias", "X meses" ou "X anos", onde X é um número.'}
+                {'age': 'A idade deve estar no formato "X dia(s)", "X mes(es)" ou "X ano(s)", onde X é um número.'}
             )
+        return datas
 
 class AdoptionSerializer(serializers.ModelSerializer):
     class Meta:
