@@ -8,6 +8,13 @@ class TutorsViewSet(viewsets.ModelViewSet):
     queryset = Tutor.objects.all()
     serializer_class = TutorSerializer
     
+    def list(self, request, *args, **kwargs):
+        tutors = self.get_queryset()
+        if not tutors.exists():
+            return Response({"detail": "No tutors found"}, status=status.HTTP_404_NOT_FOUND)
+
+        return super().list(request, *args, **kwargs)
+    
 class SheltersViewSet(viewsets.ModelViewSet):
     queryset = Shelter.objects.all()
     serializer_class = ShelterSerializer
