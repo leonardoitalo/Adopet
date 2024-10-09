@@ -1,27 +1,36 @@
-FROM python:3.12.4
+# Utiliza uma imagem base menor (slim)
+FROM python:3.12-slim
 
 # Define um diretório de trabalho
 WORKDIR /code
 
-# Copia apenas o arquivo de requisitos primeiro
+# Copia o arquivo de requisitos ANTES de instalar as dependências
 COPY requirements.txt /code/
 
-# Instala as dependências
-RUN python -m venv /venv && \
-    /venv/bin/pip install --upgrade pip && \
-    /venv/bin/pip install -r requirements.txt && \
-    adduser --disabled-password --no-create-home duser
-
-# Adiciona a pasta scripts e venv/bin 
-# no $PATH do container.
-ENV PATH="/scripts:/venv/bin:$PATH"
-
-# Copia apenas os arquivos necessários para a imagem
-COPY . /code/
+# Executa tudo em um único RUN para reduzir camadas
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    build-essential libpq-dev && \
+    adduser --disabled-password --gecos "" --no-create-home duser && \
+    rm -rf /var/lib/apt/lists/* && \
+    pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt --root-user-action=ignore && \
+    mkdir /scripts && \
+    chown -R duser:duser /code
 
 # Copia o script de entrada e define permissões
-COPY ./scripts/entrypoint.sh /code/scripts/entrypoint.sh
-RUN chmod +x /code/scripts/entrypoint.sh
+COPY ./scripts/entrypoint.sh /scripts/entrypoint.sh
+RUN chmod +x /scripts/entrypoint.sh
+
+# Copia o restante do código para o container
+COPY . /code/
+
+# Adiciona a pasta scripts ao PATH
+ENV PATH="/scripts:$PATH"
+
+# Troca para o usuário não privilegiado
+USER duser
 
 # Comando de inicialização
 CMD ["./scripts/entrypoint.sh"]
+
