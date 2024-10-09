@@ -7,7 +7,14 @@ WORKDIR /code
 COPY requirements.txt /code/
 
 # Instala as dependências
-RUN pip install --no-cache-dir -r requirements.txt
+RUN python -m venv /venv && \
+    /venv/bin/pip install --upgrade pip && \
+    /venv/bin/pip install -r requirements.txt && \
+    adduser --disabled-password --no-create-home duser
+
+# Adiciona a pasta scripts e venv/bin 
+# no $PATH do container.
+ENV PATH="/scripts:/venv/bin:$PATH"
 
 # Copia apenas os arquivos necessários para a imagem
 COPY . /code/
