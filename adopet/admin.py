@@ -14,6 +14,8 @@ class Shelters(admin.ModelAdmin):
     list_display = ('id', 'name',)
     list_display_links = ('id', 'name',)
     list_per_page = 10
+    search_fields = ('name',)
+    ordering = ('name',)
     
 admin.site.register(Shelter, Shelters)
     
@@ -22,6 +24,7 @@ class Pets(admin.ModelAdmin):
     list_display_links = ('id', 'name',)
     list_per_page = 10
     search_fields = ('name',)
+    ordering = ('name',)
     
 admin.site.register(Pet, Pets)
 

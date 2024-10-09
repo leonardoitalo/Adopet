@@ -2,14 +2,16 @@ from adopet.models import Tutor, Shelter, Pet, Adoption
 from adopet.serializers import TutorSerializer, ShelterSerializer, PetSerializer, AdoptionSerializer
 from rest_framework import viewsets, status, filters
 from rest_framework.response import Response
+from rest_framework import filters
 from .permissions import IsShelterAndCanDeleteAdoption
 from django_filters.rest_framework import DjangoFilterBackend
 
 class TutorsViewSet(viewsets.ModelViewSet):
     queryset = Tutor.objects.all()
     serializer_class = TutorSerializer
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     ordering_fields = ['name']
+    search_fields = ['name']
     
     def list(self, request, *args, **kwargs):
         tutors = self.get_queryset()
@@ -21,6 +23,9 @@ class TutorsViewSet(viewsets.ModelViewSet):
 class SheltersViewSet(viewsets.ModelViewSet):
     queryset = Shelter.objects.all()
     serializer_class = ShelterSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    ordering_fields = ['name']
+    search_fields = ['name']
     
     def list(self, request, *args, **kwargs):
         shelters = self.get_queryset()
@@ -40,6 +45,9 @@ class SheltersViewSet(viewsets.ModelViewSet):
 class PetsViewSet(viewsets.ModelViewSet):
     queryset = Pet.objects.filter(adopted=False)
     serializer_class = PetSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    ordering_fields = ['name']
+    search_fields = ['name']
 
     def list(self, request, *args, **kwargs):
         pets = self.get_queryset()
@@ -60,6 +68,9 @@ class AdoptionsViewSet(viewsets.ModelViewSet):
     queryset = Adoption.objects.all()
     serializer_class = AdoptionSerializer
     permission_classes = [IsShelterAndCanDeleteAdoption]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    ordering_fields = ['data']
+    search_fields = ['id']
     
     def destroy(self, request, *args, **kwargs):
         try:     
