@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'adopet',
     'rest_framework',
+    'django_filters',
 ]
 
 MIDDLEWARE = [

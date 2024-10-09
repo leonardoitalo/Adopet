@@ -6,6 +6,7 @@ class Tutors(admin.ModelAdmin):
     list_display_links = ('id', 'name',)
     list_per_page = 10
     search_fields = ('name',)
+    ordering = ('name',)
     
 admin.site.register(Tutor, Tutors)
 
