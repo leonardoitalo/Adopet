@@ -8,12 +8,18 @@ class Tutor(models.Model):
     
     def __str__(self):
         return self.name
+    
+    class Meta:
+        ordering = ['name'] 
 
 class Shelter(models.Model):
     name = models.CharField(max_length=100, blank=False)
     
     def __str__(self):
         return self.name
+    
+    class Meta:
+        ordering = ['name'] 
 
 class Pet(models.Model):
     SIZE = (
@@ -26,7 +32,7 @@ class Pet(models.Model):
 
     name = models.CharField(max_length=100, blank=False)
     age = models.CharField(max_length=10, blank=False)
-    size = models.CharField(max_length=2, choices=SIZE, blank=False, null=False, default='SM')
+    size = models.CharField(max_length=100, choices=SIZE, blank=False, null=False, default='SM')
     description = models.CharField(max_length=100, blank=False, null=False)
     address = models.CharField(max_length=100, blank=False, null=False)
     adopted = models.BooleanField(blank=False, default=False, editable=False)
@@ -36,8 +42,11 @@ class Pet(models.Model):
     def __str__(self):
         return self.name
     
+    class Meta:
+        ordering = ['name'] 
+    
 class Adoption(models.Model):
-    data = models.DateField(auto_now=False, auto_now_add=True)
+    date = models.DateField(auto_now=False, auto_now_add=True)
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE)
     tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
     
@@ -48,4 +57,7 @@ class Adoption(models.Model):
     
     def __str__(self):
         return f"{self.tutor.name} adotou {self.pet.name}"
+    
+    class Meta:
+        ordering = ['date'] 
     
