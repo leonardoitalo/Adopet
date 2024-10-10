@@ -21,7 +21,7 @@ class AdoptionsTestCase(APITestCase):
         self.pet_01 = Pet.objects.create(
             name = 'Pet teste Um',
             age = '1 ano',
-            size = 'Small',
+            size = 'pequeno',
             description = 'Agradavel e alegre',
             address = 'Rio de janeiro (RJ)',
             adopted = False,

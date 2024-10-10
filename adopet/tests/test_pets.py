@@ -15,16 +15,14 @@ class PetsTestCase(APITestCase):
         self.pet_01 = Pet.objects.create(
             name = 'Pet teste Um',
             age = '1 ano',
-            size = 'Small',
+            size = 'pequeno',
             description = 'Agradavel e alegre',
             address = 'Rio de janeiro (RJ)',
             adopted = False,
             image = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQktXg5_v8-L9AslphhrFvphE12SWkGl-_Jig&usqp=CAU',
             shelter = self.shelter
         )
-        # self.pet_02 = Pet.objects.create(
-        #     name = 'Teste Pet Um'
-        # )
+
         
     def test_request_get_list_pets(self):
         """Teste de requisição GET"""

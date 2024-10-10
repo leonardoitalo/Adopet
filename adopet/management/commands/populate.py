@@ -28,13 +28,12 @@ class Command(BaseCommand):
         for _ in range(20):
             name = fake.first_name()
             age = f'{random.randint(1, 10)} anos'
-            size = random.choice(['S', 'M', 'B', 'SM', 'MB'])
+            size = random.choice(['pequeno', 'médio', 'grande', 'médio/grande'])
             description = random.choice(['Calmo', 'Educado', 'Ativo', 'Carinhoso', 'Brincalhão'])
             address = fake.address()
             adopted = False
             image = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQktXg5_v8-L9AslphhrFvphE12SWkGl-_Jig&usqp=CAU'
             shelter = random.choice(shelters)
             Pet.objects.create(name=name, age=age, size=size, description=description, address=address, adopted=adopted, image=image, shelter=shelter)
-
 
         self.stdout.write(self.style.SUCCESS('Banco de dados populado com sucesso!'))

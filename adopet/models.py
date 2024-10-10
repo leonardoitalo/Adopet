@@ -23,11 +23,10 @@ class Shelter(models.Model):
 
 class Pet(models.Model):
     SIZE = (
-        ('S', 'Small'),
-        ('M', 'Medium'),
-        ('B', 'Big'),
-        ('SM', 'Small/Medium'),
-        ('MB', 'Medium/Big'),
+        ('P', 'pequeno'),
+        ('M', 'médio'),
+        ('G', 'grande'),
+        ('MG', 'médio/grande'),
     )
 
     name = models.CharField(max_length=100, blank=False)
