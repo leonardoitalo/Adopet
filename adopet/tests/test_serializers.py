@@ -22,7 +22,7 @@ class SerializerTutorTestCase(TestCase):
             shelter = self.shelter
         )
         self.adoption = Adoption(
-            data = '2024-10-9',
+            date = '2024-10-9',
             pet = self.pet,
             tutor = self.tutor
         )
@@ -86,12 +86,12 @@ class SerializerTutorTestCase(TestCase):
         """Teste que verifica os campos que estão sendo serializados de adoption"""
         datas = self.adoption_serializer.data
         self.assertEqual(set(datas.keys()), set([
-            'id', 'data', 'pet', 'tutor'
+            'id', 'date', 'pet', 'tutor'
         ]))
     def test_check_serializers_fields_content_adoption(self):
         """Teste que verifica o conteúdo dos campos que estão sendo serializados de adoption"""
         datas = self.adoption_serializer.data
-        self.assertEqual(datas['data'], self.adoption.data)
+        self.assertEqual(datas['date'], self.adoption.date)
         self.assertEqual(datas['pet'], self.adoption.pet.id)
         self.assertEqual(datas['tutor'], self.adoption.tutor.id)
         

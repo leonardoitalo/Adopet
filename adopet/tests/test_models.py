@@ -31,7 +31,7 @@ class ModelTutorTestCase(TestCase):
             shelter = self.shelter
         )
         self.adoption = Adoption.objects.create(
-            data = datetime.date.today(),
+            date = datetime.date.today(),
             pet = self.pet_adopted,
             tutor = self.tutor
         )
@@ -58,7 +58,7 @@ class ModelTutorTestCase(TestCase):
     
     def test_check_adoption_attributes(self):
         """Teste que verifica os atributos do modelo de Adoption"""
-        self.assertEqual(self.adoption.data, datetime.date.today()),
+        self.assertEqual(self.adoption.date, datetime.date.today()),
         self.assertEqual(self.adoption.pet, self.pet_adopted),
         self.assertEqual(self.adoption.tutor, self.tutor),
         
