@@ -30,8 +30,8 @@ class AdoptionsTestCase(APIBaseTestCase):
     def test_request_post_adoption(self):
         """Teste de requisição POST para um adoption"""
         datas = {
-            'pet': self.pet.id,
-            'tutor': self.tutor.id
+            'pet': self.pet.pk,
+            'tutor': self.tutor.pk
         }
 
         response = self.client.post(self.url, datas)
