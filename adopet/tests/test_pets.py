@@ -2,13 +2,14 @@ from django.urls import reverse
 from rest_framework import status
 from adopet.tests.base_test import APIBaseTestCase
 from adopet.serializers import PetSerializer
+from adopet.models import Pet, Shelter
 
 class PetsTestCase(APIBaseTestCase):
     def setUp(self):
         super().setUp()
         self.url = reverse('Pets-list')
-        self.shelter = self.create_shelter()
-        self.pet = self.create_pet(shelter=self.shelter)
+        self.shelter = Shelter.objects.get(pk=3)
+        self.pet = Pet.objects.get(pk=2)
         
     def test_request_get_list_pets(self):
         """Teste de requisição GET"""
@@ -17,7 +18,7 @@ class PetsTestCase(APIBaseTestCase):
         
     def test_request_get_list_one_pet(self):
         """Teste de requisição GET para listar um pet"""
-        response = self.client.get(f'{self.url}{self.pet.id}/')
+        response = self.client.get(f'{self.url}{self.pet.pk}/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         serialized_data = self.get_serialized_data(self.pet, PetSerializer)
         self.assertEqual(response.data, serialized_data)
@@ -32,7 +33,7 @@ class PetsTestCase(APIBaseTestCase):
             'address': 'São Paulo (SP)',
             'adopted': False,
             'image': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQktXg5_v8-L9AslphhrFvphE12SWkGl-_Jig&usqp=CAU',
-            'shelter': self.shelter.id
+            'shelter': self.shelter.pk
         }
 
         response = self.client.post(self.url, datas)
@@ -40,7 +41,7 @@ class PetsTestCase(APIBaseTestCase):
         
     def test_request_delete_pet(self):
         """Teste de requisição DELETE para um pet"""
-        response = self.client.delete(f'{self.url}{self.pet.id}/')
+        response = self.client.delete(f'{self.url}{self.pet.pk}/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         
     def test_request_put_shelter(self):
@@ -53,8 +54,8 @@ class PetsTestCase(APIBaseTestCase):
             'address': 'Rio de Janeiro (RJ)',
             'adopted': False,
             'image': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQktXg5_v8-L9AslphhrFvphE12SWkGl-_Jig&usqp=CAU',
-            'shelter': self.shelter.id
+            'shelter': self.shelter.pk
         }
 
-        response = self.client.put(f'{self.url}{self.pet.id}/', datas)
+        response = self.client.put(f'{self.url}{self.pet.pk}/', datas)
         self.assertEqual(response.status_code, status.HTTP_200_OK)

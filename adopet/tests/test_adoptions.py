@@ -2,15 +2,15 @@ from django.urls import reverse
 from rest_framework import status
 from adopet.tests.base_test import APIBaseTestCase
 from adopet.serializers import AdoptionSerializer
+from adopet.models import Tutor, Shelter, Pet, Adoption
 
 class AdoptionsTestCase(APIBaseTestCase):
     def setUp(self):
         super().setUp()
         self.url = reverse('Adoptions-list')
-        self.tutor = self.create_tutor()
-        self.shelter = self.create_shelter()
-        self.pet = self.create_pet(shelter=self.shelter)
-        self.adoption = self.create_adoption(self.tutor, self.pet)
+        self.adoption = Adoption.objects.get(pk=1)
+        self.pet = Pet.objects.get(pk=5)
+        self.tutor = Tutor.objects.get(pk=5)
         
     def test_request_get_list_adoptions(self):
         """Teste de requisição GET"""
@@ -19,7 +19,7 @@ class AdoptionsTestCase(APIBaseTestCase):
         
     def test_request_get_list_one_adoption(self):
         """Teste de requisição GET para listar um adoption"""
-        response = self.client.get(f'{self.url}{self.adoption.id}/')
+        response = self.client.get(f'{self.url}{self.adoption.pk}/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         serialized_data = self.get_serialized_data(self.adoption, AdoptionSerializer)
         self.assertEqual(response.data, serialized_data)
@@ -35,19 +35,15 @@ class AdoptionsTestCase(APIBaseTestCase):
         
     def test_request_delete_adoption(self):
         """Teste de requisição DELETE para um adoption"""
-        response = self.client.delete(f'{self.url}{self.adoption.id}/')
+        response = self.client.delete(f'{self.url}{self.adoption.pk}/')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_request_put_adoption(self):
         """Teste de requisição PUT para um adoption"""
-        self.shelter_put = self.create_shelter('Test Put Shelter')
-        self.pet_put = self.create_pet(shelter=self.shelter_put)
-        self.tutor_put = self.create_tutor('Test Put Tutor', 'tutor@put.com', '12345678')
-         
         datas = {
-            'pet': self.pet_put.pk,
-            'tutor': self.tutor_put.pk
+            'pet': self.pet.pk,
+            'tutor': self.tutor.pk
         }
 
-        response = self.client.put(f'{self.url}{self.adoption.id}/', datas)
+        response = self.client.put(f'{self.url}{self.adoption.pk}/', datas)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
