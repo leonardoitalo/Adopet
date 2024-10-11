@@ -2,7 +2,6 @@ from django.urls import reverse
 from rest_framework import status
 from adopet.tests.base_test import APIBaseTestCase
 from adopet.serializers import AdoptionSerializer
-import datetime
 
 class AdoptionsTestCase(APIBaseTestCase):
     def setUp(self):
