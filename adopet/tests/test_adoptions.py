@@ -1,40 +1,39 @@
-from rest_framework.test import APITestCase
-from django.contrib.auth.models import User 
 from django.urls import reverse
 from rest_framework import status
-from adopet.models import Adoption, Pet, Shelter, Tutor
+from adopet.tests.base_test import APIBaseTestCase
+from adopet.serializers import AdoptionSerializer
 import datetime
 
-class AdoptionsTestCase(APITestCase):
+class AdoptionsTestCase(APIBaseTestCase):
     def setUp(self):
-        self.user = User.objects.create_superuser(username='admin', password='admin')
-        self.url = reverse('Tutors-list')
-        self.client.force_authenticate(user=self.user)
-        self.tutor_01 = Tutor.objects.create(
-            name = 'Teste tutor Um',
-            email = 'tutor01@test.com',
-            password = '12345678'
-        )
-        self.shelter_01 = Shelter.objects.create(
-            name = 'Teste Shelter Um'
-        )
-        self.pet_01 = Pet.objects.create(
-            name = 'Pet teste Um',
-            age = '1 ano',
-            size = 'pequeno',
-            description = 'Agradavel e alegre',
-            address = 'Rio de janeiro (RJ)',
-            adopted = False,
-            image = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQktXg5_v8-L9AslphhrFvphE12SWkGl-_Jig&usqp=CAU',
-            shelter = self.shelter_01
-        )
-        self.adoption = Adoption.objects.create(
-            date = datetime.date.today(), 
-            pet = self.pet_01,
-            tutor = self.tutor_01,
-        )
+        super().setUp()
+        self.url = reverse('Adoptions-list')
+        self.tutor = self.create_tutor()
+        self.shelter = self.create_shelter()
+        self.pet = self.create_pet(shelter=self.shelter)
+        self.adoption = self.create_adoption(self.tutor, self.pet)
         
-    def test_request_get_list_pets(self):
+    def test_request_get_list_adoptions(self):
         """Teste de requisição GET"""
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+    def test_request_get_list_one_adoption(self):
+        """Teste de requisição GET para listar um adoption"""
+        response = self.client.get(f'{self.url}{self.adoption.id}/')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        serialized_data = self.get_serialized_data(self.adoption, AdoptionSerializer)
+        self.assertEqual(response.data, serialized_data)
+        print(response)
+        print(self.adoption.id, self.adoption.date, )
+        
+    def test_request_post_adoption(self):
+        """Teste de requisição POST para um adoption"""
+        datas = {
+            'pet': self.pet.id,
+            'tutor': self.tutor.id
+        }
+
+        response = self.client.post(self.url, datas)
+        print(response.data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)

@@ -1,26 +1,33 @@
-from rest_framework.test import APITestCase
-from django.contrib.auth.models import User 
 from django.urls import reverse
 from rest_framework import status
-from adopet.models import Tutor
+from adopet.tests.base_test import APIBaseTestCase
+from adopet.serializers import TutorSerializer
 
-class TutorsTestCase(APITestCase):
+class TutorsTestCase(APIBaseTestCase):
     def setUp(self):
-        self.user = User.objects.create_superuser(username='admin', password='admin')
+        super().setUp()
         self.url = reverse('Tutors-list')
-        self.client.force_authenticate(user=self.user)
-        self.tutor_01 = Tutor.objects.create(
-            name = 'Teste tutor Um',
-            email = 'tutor01@test.com',
-            password = '12345678'
-        )
-        self.tutor_02 = Tutor.objects.create(
-            name = 'Teste tutor Dois',
-            email = 'tutor02@test.com',
-            password = '12345678'
-        )
+        self.tutor = self.create_tutor()
         
     def test_request_get_list_tutors(self):
         """Teste de requisição GET"""
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+    def test_request_get_list_one_tutor(self):
+        """Teste de requisição GET para listar um tutor"""
+        response = self.client.get(f'{self.url}{self.tutor.id}/')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        serialized_data = self.get_serialized_data(self.tutor, TutorSerializer)
+        self.assertEqual(response.data, serialized_data)
+        
+    def test_request_post_tutor(self):
+        """Teste de requisição POST para um tutor"""
+        datas = {
+            'name': 'Test Post Tutor',
+            'email': 'test@post.com',
+            'password': 'test_post_password'
+        }
+
+        response = self.client.post(self.url, datas)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
