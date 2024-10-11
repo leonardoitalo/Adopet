@@ -31,3 +31,19 @@ class TutorsTestCase(APIBaseTestCase):
 
         response = self.client.post(self.url, datas)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        
+    def test_request_delete_tutor(self):
+        """Teste de requisição DELETE para um tutor"""
+        response = self.client.delete(f'{self.url}{self.tutor.id}/')
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        
+    def test_request_put_tutor(self):
+        """Teste de requisição PUT para um tutor"""
+        datas = {
+            'name': 'Test Put Tutor',
+            'email': 'test@put.com',
+            'password': 'test_put_password'
+        }
+
+        response = self.client.put(f'{self.url}{self.tutor.id}/', datas)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

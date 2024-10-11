@@ -37,3 +37,24 @@ class PetsTestCase(APIBaseTestCase):
 
         response = self.client.post(self.url, datas)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        
+    def test_request_delete_pet(self):
+        """Teste de requisição DELETE para um pet"""
+        response = self.client.delete(f'{self.url}{self.pet.id}/')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+    def test_request_put_shelter(self):
+        """Teste de requisição PUT para um pet"""
+        datas = {
+            'name': 'Test Put Pet',
+            'age': '2 meses',
+            'size': 'médio',
+            'description': 'Carinhoso',
+            'address': 'Rio de Janeiro (RJ)',
+            'adopted': False,
+            'image': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQktXg5_v8-L9AslphhrFvphE12SWkGl-_Jig&usqp=CAU',
+            'shelter': self.shelter.id
+        }
+
+        response = self.client.put(f'{self.url}{self.pet.id}/', datas)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

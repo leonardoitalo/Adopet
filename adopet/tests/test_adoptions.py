@@ -23,16 +23,31 @@ class AdoptionsTestCase(APIBaseTestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         serialized_data = self.get_serialized_data(self.adoption, AdoptionSerializer)
         self.assertEqual(response.data, serialized_data)
-        print(response)
-        print(self.adoption.id, self.adoption.date, )
-        
+
     def test_request_post_adoption(self):
         """Teste de requisição POST para um adoption"""
         datas = {
             'pet': self.pet.pk,
             'tutor': self.tutor.pk
         }
-
         response = self.client.post(self.url, datas)
-        print(response.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        
+    def test_request_delete_adoption(self):
+        """Teste de requisição DELETE para um adoption"""
+        response = self.client.delete(f'{self.url}{self.adoption.id}/')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_request_put_adoption(self):
+        """Teste de requisição PUT para um adoption"""
+        self.shelter_put = self.create_shelter('Test Put Shelter')
+        self.pet_put = self.create_pet(shelter=self.shelter_put)
+        self.tutor_put = self.create_tutor('Test Put Tutor', 'tutor@put.com', '12345678')
+         
+        datas = {
+            'pet': self.pet_put.pk,
+            'tutor': self.tutor_put.pk
+        }
+
+        response = self.client.put(f'{self.url}{self.adoption.id}/', datas)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)

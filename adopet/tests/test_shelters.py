@@ -29,3 +29,17 @@ class SheltersTestCase(APIBaseTestCase):
 
         response = self.client.post(self.url, datas)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        
+    def test_request_delete_shelter(self):
+        """Teste de requisição DELETE para um shelter"""
+        response = self.client.delete(f'{self.url}{self.shelter.id}/')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+    def test_request_put_shelter(self):
+        """Teste de requisição PUT para um shelter"""
+        datas = {
+            'name': 'Test Put Shelter'
+        }
+
+        response = self.client.put(f'{self.url}{self.shelter.id}/', datas)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
