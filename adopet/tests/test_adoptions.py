@@ -2,18 +2,18 @@ from django.urls import reverse
 from rest_framework import status
 from adopet.tests.base_test import APIBaseTestCase
 from adopet.serializers import AdoptionSerializer
-from adopet.models import Tutor, Shelter, Pet, Adoption
+from adopet.models import Tutor, Pet, Adoption
 from django.contrib.auth.models import User 
 
 class AdoptionsTestCase(APIBaseTestCase):
-    
     def setUp(self):
         super().setUp()
         self.url = reverse('Adoptions-list')
         self.adoption = Adoption.objects.get(pk=1)
         self.pet = Pet.objects.get(pk=5)
         self.tutor = Tutor.objects.get(pk=5)
-        
+        self.user_shelter = User.objects.get(id=2)
+    
     def test_request_get_list_adoptions(self):
         """Teste de requisição GET"""
         response = self.client.get(self.url)
@@ -33,16 +33,28 @@ class AdoptionsTestCase(APIBaseTestCase):
             'pet': self.pet.pk,
             'tutor': self.tutor.pk
         }
+
+        response = self.client.post(self.url, datas)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        
+    def test_check_shelter_can_post_adoption(self):
+        """Teste para verificar se um tutor consegue realizar uma adoção"""
+        datas = {
+            'pet': self.pet.pk,
+            'tutor': self.tutor.pk
+        }
+
+        self.client.force_authenticate(user=self.user_shelter)
         response = self.client.post(self.url, datas)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        
+
     def test_request_delete_adoption(self):
         """Teste de requisição DELETE para um adoption"""
         response = self.client.delete(f'{self.url}{self.adoption.pk}/')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
     
     def test_check_shelter_can_delete_adoption(self):
-        self.user_shelter = User.objects.get(id=2)
+        """Teste para verificar se um tutor consegue deletar uma adoção"""
         self.client.force_authenticate(user=self.user_shelter)
         response = self.client.delete(f'{self.url}{self.adoption.pk}/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
