@@ -3,7 +3,7 @@ from adopet.serializers import TutorSerializer, ShelterSerializer, PetSerializer
 from rest_framework import viewsets, status, filters
 from rest_framework.response import Response
 from rest_framework import filters
-from .permissions import IsShelterAndCanDeleteAdoption
+from .permissions import ShelterPermissions
 from django_filters.rest_framework import DjangoFilterBackend
 
 class TutorsViewSet(viewsets.ModelViewSet):
@@ -45,6 +45,7 @@ class SheltersViewSet(viewsets.ModelViewSet):
 class PetsViewSet(viewsets.ModelViewSet):
     queryset = Pet.objects.filter(adopted=False)
     serializer_class = PetSerializer
+    permission_classes = [ShelterPermissions]
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     ordering_fields = ['name']
     search_fields = ['name']
@@ -67,7 +68,7 @@ class PetsViewSet(viewsets.ModelViewSet):
 class AdoptionsViewSet(viewsets.ModelViewSet):
     queryset = Adoption.objects.all()
     serializer_class = AdoptionSerializer
-    permission_classes = [IsShelterAndCanDeleteAdoption]
+    permission_classes = [ShelterPermissions]
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     ordering_fields = ['data']
     search_fields = ['id']
