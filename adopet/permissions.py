@@ -1,6 +1,6 @@
 from rest_framework import permissions
 
-class IsShelterAndCanDeleteAdoption(permissions.BasePermission):
+class ShelterPermissions(permissions.BasePermission):
     """
     Custom permission to allow only shelters to exclude adoptions.
     """
@@ -16,4 +16,4 @@ class IsShelterAndCanDeleteAdoption(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:  # GET, HEAD, OPTIONS
             return True
         
-        return request.method == 'DELETE' and request.user.groups.filter(name='Shelter').exists()
+        return request.method in ['DELETE', 'PUT'] and request.user.groups.filter(name='Shelter').exists()
