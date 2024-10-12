@@ -7,7 +7,7 @@ from .permissions import ShelterPermissions
 from django_filters.rest_framework import DjangoFilterBackend
 
 class TutorsViewSet(viewsets.ModelViewSet):
-    queryset = Tutor.objects.all()
+    queryset = Tutor.objects.all().order_by('id')
     serializer_class = TutorSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     ordering_fields = ['name']
@@ -21,7 +21,7 @@ class TutorsViewSet(viewsets.ModelViewSet):
         return super().list(request, *args, **kwargs)
     
 class SheltersViewSet(viewsets.ModelViewSet):
-    queryset = Shelter.objects.all()
+    queryset = Shelter.objects.all().order_by('id')
     serializer_class = ShelterSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     ordering_fields = ['name']
@@ -43,7 +43,7 @@ class SheltersViewSet(viewsets.ModelViewSet):
             return Response({'detail': "Shelter not deleted"}, status=status.HTTP_400_BAD_REQUEST)
 
 class PetsViewSet(viewsets.ModelViewSet):
-    queryset = Pet.objects.filter(adopted=False)
+    queryset = Pet.objects.filter(adopted=False).order_by('id')
     serializer_class = PetSerializer
     permission_classes = [ShelterPermissions]
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
@@ -66,7 +66,7 @@ class PetsViewSet(viewsets.ModelViewSet):
             return Response({'detail': "Pet not deleted"}, status=status.HTTP_400_BAD_REQUEST)
 
 class AdoptionsViewSet(viewsets.ModelViewSet):
-    queryset = Adoption.objects.all()
+    queryset = Adoption.objects.all().order_by('id')
     serializer_class = AdoptionSerializer
     permission_classes = [ShelterPermissions]
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
