@@ -38,7 +38,7 @@ class AdoptionsTestCase(APIBaseTestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         
     def test_check_shelter_can_post_adoption(self):
-        """Teste para verificar se um tutor consegue realizar uma adoção"""
+        """Teste para verificar se um abrigo consegue realizar uma adoção"""
         datas = {
             'pet': self.pet.pk,
             'tutor': self.tutor.pk
@@ -54,7 +54,7 @@ class AdoptionsTestCase(APIBaseTestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
     
     def test_check_shelter_can_delete_adoption(self):
-        """Teste para verificar se um tutor consegue deletar uma adoção"""
+        """Teste para verificar se um abrigo consegue deletar uma adoção"""
         self.client.force_authenticate(user=self.user_shelter)
         response = self.client.delete(f'{self.url}{self.adoption.pk}/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -68,3 +68,14 @@ class AdoptionsTestCase(APIBaseTestCase):
 
         response = self.client.put(f'{self.url}{self.adoption.pk}/', datas)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        
+    def test_check_shelter_can_put_pet(self):
+        """Teste para verificar se um abrigo consegue alterar uma adoção"""
+        datas = {
+            'pet': self.pet.pk,
+            'tutor': self.tutor.pk
+        }
+
+        self.client.force_authenticate(user=self.user_shelter)
+        response = self.client.put(f'{self.url}{self.adoption.pk}/', datas)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
