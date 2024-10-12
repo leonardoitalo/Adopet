@@ -9,7 +9,6 @@ class TutorSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'email', 'password']
     
     def validate(self, datas):
-        print(datas)
         if invalid_name(datas['name']):
             raise serializers.ValidationError({'name': 'O nome só pode conter letras'})
         return datas

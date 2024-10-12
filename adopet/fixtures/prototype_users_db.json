@@ -1,0 +1,48 @@
+[
+    {
+        "model": "auth.group",
+        "pk": 1,
+        "fields": {
+            "name": "Shelter",
+            "permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$720000$OD1BWRNcSHCoSx15nmVbLU$y+bPA0QrDI9d4Mpn8VRxsSr8tsHSnm90h9p9jMI53tE=",
+            "last_login": "2024-10-12T05:48:54.365Z",
+            "is_superuser": true,
+            "username": "italo",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2024-10-12T02:22:04.135Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 2,
+        "fields": {
+            "password": "pbkdf2_sha256$720000$NZrqFnywCbXGZuZlDgl6Pu$d5f4lbdxDteYrllhs/ZrljpnXTrpnhlXnTt//rtVOu0=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "Carlos",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2024-10-12T05:49:29Z",
+            "groups": [
+                1
+            ],
+            "user_permissions": []
+        }
+    }
+]

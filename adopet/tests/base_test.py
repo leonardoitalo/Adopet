@@ -2,7 +2,7 @@ from rest_framework.test import APITestCase
 from django.contrib.auth.models import User 
 
 class APIBaseTestCase(APITestCase):
-    fixtures = ['prototype_db']
+    fixtures = ['prototype_db', 'prototype_users_db']
     
     def setUp(self):
         self.user = User.objects.create_superuser(username='admin', password='admin')
