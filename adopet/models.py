@@ -9,17 +9,13 @@ class Tutor(models.Model):
     def __str__(self):
         return self.name
     
-    class Meta:
-        ordering = ['name'] 
 
 class Shelter(models.Model):
     name = models.CharField(max_length=100, blank=False)
     
     def __str__(self):
         return self.name
-    
-    class Meta:
-        ordering = ['name'] 
+
 
 class Pet(models.Model):
     SIZE = (
@@ -41,8 +37,6 @@ class Pet(models.Model):
     def __str__(self):
         return self.name
     
-    class Meta:
-        ordering = ['name'] 
     
 class Adoption(models.Model):
     date = models.DateField(auto_now=False, auto_now_add=True)
