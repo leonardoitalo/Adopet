@@ -1,7 +1,5 @@
 from rest_framework.test import APITestCase
 from django.contrib.auth.models import User 
-from adopet.models import Tutor, Shelter, Pet, Adoption
-import datetime
 
 class APIBaseTestCase(APITestCase):
     fixtures = ['prototype_db']
