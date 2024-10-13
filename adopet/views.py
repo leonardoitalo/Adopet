@@ -3,12 +3,14 @@ from adopet.serializers import TutorSerializer, ShelterSerializer, PetSerializer
 from rest_framework import viewsets, status, filters
 from rest_framework.response import Response
 from rest_framework import filters
-from .permissions import ShelterPermissions
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from .permissions import ShelterPermissions, AllowAnyForCreateOtherwiseAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
 
 class TutorsViewSet(viewsets.ModelViewSet):
     queryset = Tutor.objects.all().order_by('id')
     serializer_class = TutorSerializer
+    permission_classes = [AllowAnyForCreateOtherwiseAuthenticated]
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     ordering_fields = ['name']
     search_fields = ['name']
@@ -23,6 +25,7 @@ class TutorsViewSet(viewsets.ModelViewSet):
 class SheltersViewSet(viewsets.ModelViewSet):
     queryset = Shelter.objects.all().order_by('id')
     serializer_class = ShelterSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     ordering_fields = ['name']
     search_fields = ['name']
@@ -45,7 +48,7 @@ class SheltersViewSet(viewsets.ModelViewSet):
 class PetsViewSet(viewsets.ModelViewSet):
     queryset = Pet.objects.filter(adopted=False).order_by('id')
     serializer_class = PetSerializer
-    permission_classes = [ShelterPermissions]
+    permission_classes = [ShelterPermissions, IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     ordering_fields = ['name']
     search_fields = ['name']
@@ -68,7 +71,7 @@ class PetsViewSet(viewsets.ModelViewSet):
 class AdoptionsViewSet(viewsets.ModelViewSet):
     queryset = Adoption.objects.all().order_by('id')
     serializer_class = AdoptionSerializer
-    permission_classes = [ShelterPermissions]
+    permission_classes = [ShelterPermissions, IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     ordering_fields = ['data']
     search_fields = ['id']

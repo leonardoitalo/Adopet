@@ -17,3 +17,17 @@ class ShelterPermissions(permissions.BasePermission):
             return True
         
         return request.method in ['DELETE', 'PUT'] and request.user.groups.filter(name='Shelter').exists()
+
+class AllowAnyForCreateOtherwiseAuthenticated(permissions.BasePermission):
+    """
+    Custom permission to allow any user to create but requires authentication for other actions.
+    """
+
+    def has_permission(self, request, view):
+        # Allow any user to create (POST)
+        if request.method == 'POST':
+            return True
+        
+        # For other methods, require the user to be authenticated
+        return request.user.is_authenticated
+    
