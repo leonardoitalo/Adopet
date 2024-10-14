@@ -15,6 +15,8 @@ from .serializers import CustomTokenObtainPairSerializer
 
 
 class TutorsViewSet(viewsets.ModelViewSet):
+    """View para listar os tutores"""
+
     queryset = Tutor.objects.all().order_by("id")
     serializer_class = TutorSerializer
     permission_classes = [IsAuthenticated]
@@ -44,6 +46,8 @@ class RegisterTutorView(generics.CreateAPIView):
 
 
 class SheltersViewSet(viewsets.ModelViewSet):
+    """View para listar os abrigos"""
+
     queryset = Shelter.objects.all().order_by("id")
     serializer_class = ShelterSerializer
     permission_classes = [IsAuthenticated]
@@ -78,6 +82,13 @@ class SheltersViewSet(viewsets.ModelViewSet):
 
 
 class PetsViewSet(viewsets.ModelViewSet):
+    """
+    View para listar pets
+
+    Descrição do metodo POST:
+    - pet: Somente um abrigo(shelter) pode criar uma pet
+    """
+
     queryset = Pet.objects.filter(adopted=False).order_by("id")
     serializer_class = PetSerializer
     permission_classes = [ShelterPermissions, IsAuthenticated]
@@ -112,6 +123,10 @@ class PetsViewSet(viewsets.ModelViewSet):
 
 
 class AdoptionsViewSet(viewsets.ModelViewSet):
+    """
+    View para listar as adoções
+    """
+
     queryset = Adoption.objects.all().order_by("id")
     serializer_class = AdoptionSerializer
     permission_classes = [ShelterPermissions, IsAuthenticated]
@@ -124,6 +139,10 @@ class AdoptionsViewSet(viewsets.ModelViewSet):
     search_fields = ["id"]
 
     def destroy(self, request, *args, **kwargs):
+        """
+        Descrição do metodo DELETE:
+        - adoption: Somente um abrigo(shelter) pode deletar uma adoção(adoption)
+        """
         try:
             adoption = self.get_object()
             adoption.delete()
@@ -137,4 +156,6 @@ class AdoptionsViewSet(viewsets.ModelViewSet):
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
+    """View para obter um Token"""
+
     serializer_class = CustomTokenObtainPairSerializer
