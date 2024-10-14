@@ -3,15 +3,15 @@ from rest_framework import permissions
 
 class ShelterPermissions(permissions.BasePermission):
     """
-    Custom permission to allow only shelters to exclude adoptions.
+    Permissão personalizada para permitir que apenas abrigos excluam adoções.
     """
 
     def has_permission(self, request, view):
-        # Allow all users access to view adoptions
+        # Permitir que todos os usuários tenham acesso para visualizar as adoções
         if request.method in permissions.SAFE_METHODS:  # GET, HEAD, OPTIONS
             return True
 
-        # The user needs to be authenticated and be a shelter
+        # O usuário precisa estar autenticado e ser um abrigo
         return (
             request.user.is_authenticated
             and request.user.groups.filter(name="Shelter").exists()
@@ -29,7 +29,7 @@ class ShelterPermissions(permissions.BasePermission):
 
 class AllowAnyForCreateOtherwiseAuthenticated(permissions.BasePermission):
     """
-    Custom permission to allow any user to create but requires authentication for other actions.
+    Permissão personalizada para permitir que qualquer usuário tenha permissão do método POST, mas requer autenticação para outras ações.
     """
 
     def has_permission(self, request, view):
