@@ -2,15 +2,15 @@ from django.urls import reverse
 from rest_framework import status
 from adopet.tests.base_test import APIBaseTestCase
 from adopet.serializers import PetSerializer
-from adopet.models import Pet, Shelter
-from django.contrib.auth.models import User 
+from adopet.models import Pet, Shelter, Tutor
+
 
 class PetsTestCase(APIBaseTestCase):
     def setUp(self):
         super().setUp()
         self.url = reverse('Pets-list')
         self.shelter = Shelter.objects.get(pk=3)
-        self.user_shelter = User.objects.get(id=2)
+        self.user_shelter = Tutor.objects.get(id=2)
         self.pet = Pet.objects.get(pk=2)
         
     def test_request_get_list_pets(self):

@@ -3,7 +3,6 @@ from rest_framework import status
 from adopet.tests.base_test import APIBaseTestCase
 from adopet.serializers import AdoptionSerializer
 from adopet.models import Tutor, Pet, Adoption
-from django.contrib.auth.models import User 
 
 class AdoptionsTestCase(APIBaseTestCase):
     def setUp(self):
@@ -12,7 +11,7 @@ class AdoptionsTestCase(APIBaseTestCase):
         self.adoption = Adoption.objects.get(pk=1)
         self.pet = Pet.objects.get(pk=5)
         self.tutor = Tutor.objects.get(pk=5)
-        self.user_shelter = User.objects.get(id=2)
+        self.user_shelter = Tutor.objects.get(id=2)
     
     def test_request_get_list_adoptions(self):
         """Teste de requisição GET"""

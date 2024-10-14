@@ -27,6 +27,13 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'adopet.Tutor' 
+
+AUTHENTICATION_BACKENDS = [
+    'adopet.backends.EmailBackend',  # Backend para autenticação via email
+    'django.contrib.auth.backends.ModelBackend',  # Backend padrão do Django (ainda pode ser útil para outros logins)
+]
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
