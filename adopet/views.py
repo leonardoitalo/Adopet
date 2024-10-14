@@ -1,11 +1,12 @@
 from adopet.models import Tutor, Shelter, Pet, Adoption
 from adopet.serializers import TutorSerializer, ShelterSerializer, PetSerializer, AdoptionSerializer
-from rest_framework import viewsets, status, filters
+from rest_framework import viewsets, status, filters, generics
 from rest_framework.response import Response
-from rest_framework import filters
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .permissions import ShelterPermissions, AllowAnyForCreateOtherwiseAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import CustomTokenObtainPairSerializer
 
 class TutorsViewSet(viewsets.ModelViewSet):
     queryset = Tutor.objects.all().order_by('id')
@@ -22,6 +23,11 @@ class TutorsViewSet(viewsets.ModelViewSet):
 
         return super().list(request, *args, **kwargs)
     
+class RegisterTutorView(generics.CreateAPIView):
+    """View para registrar novos tutores"""
+    queryset = Tutor.objects.all()
+    serializer_class = TutorSerializer    
+
 class SheltersViewSet(viewsets.ModelViewSet):
     queryset = Shelter.objects.all().order_by('id')
     serializer_class = ShelterSerializer
@@ -83,4 +89,7 @@ class AdoptionsViewSet(viewsets.ModelViewSet):
             return Response({"detail": "Adoption deleted with success"}, status=status.HTTP_200_OK)
         except:
             return Response({'detail': "Pet not deleted"}, status=status.HTTP_400_BAD_REQUEST)
+        
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
         
