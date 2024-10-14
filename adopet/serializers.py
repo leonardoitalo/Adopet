@@ -3,6 +3,7 @@ from rest_framework import serializers
 from adopet.models import Tutor, Shelter, Pet, Adoption
 from .validators import invalid_name, invalid_age
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework import status
 
 class TutorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -56,15 +57,19 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             try:
                 user = Tutor.objects.get(email=email)
             except Tutor.DoesNotExist:
-                raise serializers.ValidationError("Usuário com esse email não encontrado.")
+                raise serializers.ValidationError(
+                    {"error": "Usuário com esse email não encontrado."}
+                )
 
             # Verifica se a senha está correta
             if not user.check_password(password):
-                raise serializers.ValidationError("Senha incorreta.")
+                raise serializers.ValidationError(
+                        {"detail": "Senha incorreta."}
+                    )
 
             # Se passar, faz a autenticação padrão do JWT
             attrs['username'] = user.email
             return super().validate(attrs)
         else:
-            raise serializers.ValidationError("É necessário fornecer email e senha.")
+            raise serializers.ValidationError({"error": "É necessário fornecer email e senha."})
         
