@@ -4,7 +4,6 @@ from adopet.tests.base_test import APIBaseTestCase
 from adopet.serializers import PetSerializer
 from adopet.models import Pet, Shelter, Tutor
 
-
 class PetsTestCase(APIBaseTestCase):
     def setUp(self):
         super().setUp()

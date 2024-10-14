@@ -23,9 +23,7 @@ class Command(BaseCommand):
             Shelter.objects.create(name=name)
         shelters = list(Shelter.objects.all()) 
             
-        # Populando Pets
-
-        # Populando Pets
+       # Polando Pets
         for _ in range(25):
             name = fake.first_name()
             age = f'{random.randint(1, 10)} anos'
@@ -37,7 +35,8 @@ class Command(BaseCommand):
             shelter = random.choice(shelters)
             Pet.objects.create(name=name, age=age, size=size, description=description, address=address, adopted=adopted, image=image, shelter=shelter)
         pets = list(Pet.objects.all()) 
-            
+        
+        # Populando Adoções
         for _ in range(10):
             date = fake.date()
             pet = random.choice(pets)

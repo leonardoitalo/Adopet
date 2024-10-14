@@ -66,7 +66,7 @@ class Pet(models.Model):
     address = models.CharField(max_length=100, blank=False, null=False)
     adopted = models.BooleanField(blank=False, default=False, editable=False)
     image = models.URLField(max_length=200, blank=False)
-    shelter = models.ForeignKey(Shelter, on_delete=models.CASCADE) # One-to-Many relationship
+    shelter = models.ForeignKey(Shelter, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
