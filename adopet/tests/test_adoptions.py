@@ -21,7 +21,6 @@ class AdoptionsTestCase(APIBaseTestCase):
     def test_request_get_list_one_adoption(self):
         """Teste de requisição GET para listar um adoption"""
         response = self.client.get(f'{self.url}{self.adoption.pk}/')
-        print(response.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         serialized_data = self.get_serialized_data(self.adoption, AdoptionSerializer)
         self.assertEqual(response.data, serialized_data)
