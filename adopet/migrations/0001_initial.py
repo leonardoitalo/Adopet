@@ -10,63 +10,149 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('auth', '0012_alter_user_first_name_max_length'),
+        ("auth", "0012_alter_user_first_name_max_length"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Pet',
+            name="Pet",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('age', models.CharField(max_length=10)),
-                ('size', models.CharField(choices=[('pequeno', 'P'), ('médio', 'M'), ('grande', 'G'), ('médio/grande', 'MG')], default='SM', max_length=100)),
-                ('description', models.CharField(max_length=100)),
-                ('address', models.CharField(max_length=100)),
-                ('adopted', models.BooleanField(default=False, editable=False)),
-                ('image', models.URLField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
+                ("age", models.CharField(max_length=10)),
+                (
+                    "size",
+                    models.CharField(
+                        choices=[
+                            ("pequeno", "P"),
+                            ("médio", "M"),
+                            ("grande", "G"),
+                            ("médio/grande", "MG"),
+                        ],
+                        default="SM",
+                        max_length=100,
+                    ),
+                ),
+                ("description", models.CharField(max_length=100)),
+                ("address", models.CharField(max_length=100)),
+                ("adopted", models.BooleanField(default=False, editable=False)),
+                ("image", models.URLField()),
             ],
         ),
         migrations.CreateModel(
-            name='Shelter',
+            name="Shelter",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
             ],
         ),
         migrations.CreateModel(
-            name='Tutor',
+            name="Tutor",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('password', models.CharField(max_length=128, verbose_name='password')),
-                ('last_login', models.DateTimeField(blank=True, null=True, verbose_name='last login')),
-                ('is_superuser', models.BooleanField(default=False, help_text='Designates that this user has all permissions without explicitly assigning them.', verbose_name='superuser status')),
-                ('name', models.CharField(max_length=100, unique=True)),
-                ('email', models.EmailField(default='tutor@tutor.com', max_length=100, unique=True)),
-                ('is_active', models.BooleanField(default=True)),
-                ('is_staff', models.BooleanField(default=False)),
-                ('groups', models.ManyToManyField(blank=True, related_name='tutor_set', to='auth.group')),
-                ('user_permissions', models.ManyToManyField(blank=True, related_name='tutor_permissions_set', to='auth.permission')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("password", models.CharField(max_length=128, verbose_name="password")),
+                (
+                    "last_login",
+                    models.DateTimeField(
+                        blank=True, null=True, verbose_name="last login"
+                    ),
+                ),
+                (
+                    "is_superuser",
+                    models.BooleanField(
+                        default=False,
+                        help_text="Designates that this user has all permissions without explicitly assigning them.",
+                        verbose_name="superuser status",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100, unique=True)),
+                (
+                    "email",
+                    models.EmailField(
+                        default="tutor@tutor.com", max_length=100, unique=True
+                    ),
+                ),
+                ("is_active", models.BooleanField(default=True)),
+                ("is_staff", models.BooleanField(default=False)),
+                (
+                    "groups",
+                    models.ManyToManyField(
+                        blank=True, related_name="tutor_set", to="auth.group"
+                    ),
+                ),
+                (
+                    "user_permissions",
+                    models.ManyToManyField(
+                        blank=True,
+                        related_name="tutor_permissions_set",
+                        to="auth.permission",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='Adoption',
+            name="Adoption",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date', models.DateField(auto_now_add=True)),
-                ('tutor', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-                ('pet', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='adopet.pet')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("date", models.DateField(auto_now_add=True)),
+                (
+                    "tutor",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "pet",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="adopet.pet"
+                    ),
+                ),
             ],
             options={
-                'ordering': ['date'],
+                "ordering": ["date"],
             },
         ),
         migrations.AddField(
-            model_name='pet',
-            name='shelter',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='adopet.shelter'),
+            model_name="pet",
+            name="shelter",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="adopet.shelter"
+            ),
         ),
     ]
