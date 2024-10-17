@@ -23,7 +23,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Run Database
       run: |
-        docker compose up db
+        docker compose up -d db
     - name: Run Tests
       run: |
         docker compose run test
