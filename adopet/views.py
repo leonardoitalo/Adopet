@@ -75,7 +75,7 @@ class SheltersViewSet(viewsets.ModelViewSet):
             return Response(
                 {"detail": "Shelter deleted with success"}, status=status.HTTP_200_OK
             )
-        except:
+        except Exception:
             return Response(
                 {"detail": "Shelter not deleted"}, status=status.HTTP_400_BAD_REQUEST
             )
@@ -116,7 +116,7 @@ class PetsViewSet(viewsets.ModelViewSet):
             return Response(
                 {"detail": "Pet deleted with success"}, status=status.HTTP_200_OK
             )
-        except:
+        except Exception:
             return Response(
                 {"detail": "Pet not deleted"}, status=status.HTTP_400_BAD_REQUEST
             )
@@ -149,7 +149,7 @@ class AdoptionsViewSet(viewsets.ModelViewSet):
             return Response(
                 {"detail": "Adoption deleted with success"}, status=status.HTTP_200_OK
             )
-        except:
+        except Exception:
             return Response(
                 {"detail": "Pet not deleted"}, status=status.HTTP_400_BAD_REQUEST
             )
