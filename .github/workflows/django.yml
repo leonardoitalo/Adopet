@@ -25,5 +25,7 @@ jobs:
       run: |
         docker compose up -d db
     - name: Run Tests
+      env:
+       SECRET_KEY: ${{ secrets.SECRET_KEY }}
       run: |
-        docker compose run test
+         docker compose run test
