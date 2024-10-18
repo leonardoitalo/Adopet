@@ -27,8 +27,8 @@ jobs:
   
     - name: Run Lint
       run: |
-          docker compose web exec black .
-          docker compose web exec flake8 .
+          docker compose exec web black .
+          docker compose exec web flake8 .
  
     - name: Run Tests
       env:
