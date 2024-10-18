@@ -37,6 +37,7 @@ jobs:
 
     - name: Wait for Web to be ready
       run: |
+        docker compose exec
         docker compose logs web
         docker compose exec web bash -c "until curl -s http://localhost:8000 > /dev/null; do sleep 1; done"
   
