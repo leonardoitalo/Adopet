@@ -24,6 +24,12 @@ jobs:
     - name: Run Database
       run: |
         docker compose up -d db
+  
+    - name: Run Lint
+      run: |
+          docker compose exec black .
+          docker compose exec flake8 .
+ 
     - name: Run Tests
       env:
        SECRET_KEY: ${{ secrets.SECRET_KEY }}
