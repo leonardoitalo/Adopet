@@ -36,12 +36,16 @@ jobs:
         docker compose up -d web
         docker compose logs web
 
-    - name: Check Web Logs
-      run: docker compose logs web
-
     - name: Wait for Web to be ready
       run: sleep 10
-  
+      
+    - name: Wait for Web Service to be Ready
+      run: |
+         until docker compose exec web curl -s http://localhost:8000/ || docker ps | grep web; do
+           echo "Waiting for web service to be ready..."
+           sleep 5
+         done
+         
     - name: Run Lint
       run: |
           docker compose exec web black .
