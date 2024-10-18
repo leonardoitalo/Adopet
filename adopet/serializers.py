@@ -1,9 +1,7 @@
-import re
 from rest_framework import serializers
 from adopet.models import Tutor, Shelter, Pet, Adoption
 from .validators import invalid_name, invalid_age
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from rest_framework import status
 
 
 class TutorSerializer(serializers.ModelSerializer):

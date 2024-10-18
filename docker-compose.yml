@@ -12,6 +12,14 @@ services:
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      SECRET_KEY: ${SECRET_KEY}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      ALLOWED_HOSTS: "localhost,127.0.0.1"
+      DJANGO_SETTINGS_MODULE: config.settings
+      DEBUG: "False"
     volumes:
       - .:/code
     ports:

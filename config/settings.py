@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config("DEBUG", default=False, cast=bool)
+DEBUG = config("DEBUG", default="localhost").split(",")
 
 ALLOWED_HOSTS = []
 
@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "django_filters",
     "corsheaders",
-    "drf_yasg"
+    "drf_yasg",
 ]
 
 MIDDLEWARE = [

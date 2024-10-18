@@ -29,7 +29,8 @@ class ShelterPermissions(permissions.BasePermission):
 
 class AllowAnyForCreateOtherwiseAuthenticated(permissions.BasePermission):
     """
-    Permissão personalizada para permitir que qualquer usuário tenha permissão do método POST, mas requer autenticação para outras ações.
+    Permissão personalizada para permitir que
+    qualquer usuário tenha permissão do método POST, mas requer autenticação para outras ações.
     """
 
     def has_permission(self, request, view):

@@ -10,7 +10,7 @@ COPY requirements.txt /code/
 # Executa tudo em um único RUN para reduzir camadas
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    build-essential libpq-dev && \
+    build-essential libpq-dev curl && \
     adduser --disabled-password --gecos "" --no-create-home duser && \
     rm -rf /var/lib/apt/lists/* && \
     pip install --upgrade pip && \

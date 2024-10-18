@@ -14,6 +14,12 @@ jobs:
       max-parallel: 4
       matrix:
         python-version: [3.12]
+        
+    env:
+       SECRET_KEY: ${{ secrets.SECRET_KEY }}
+       POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+       POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
 
     steps:
     - uses: actions/checkout@v4
@@ -24,11 +30,20 @@ jobs:
     - name: Run Database
       run: |
         docker compose up -d db
+
+    - name: Run Web
+      run: |
+        docker compose up -d web
+        docker compose logs web
+
+    - name: Wait for Web to be ready
+      run: sleep 6
+         
+    - name: Run Lint
+      run: |
+          docker compose exec web black .
+          docker compose exec web flake8 .
+ 
     - name: Run Tests
-      env:
-       SECRET_KEY: ${{ secrets.SECRET_KEY }}
-       POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-       POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
       run: |
          docker compose run test
