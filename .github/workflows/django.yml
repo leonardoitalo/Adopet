@@ -34,6 +34,10 @@ jobs:
     - name: Run Web
       run: |
         docker compose up -d web
+
+    - name: Wait for Web to be ready
+      run: |
+        docker compose exec web bash -c "until nc -z localhost 8000; do sleep 1; done"
   
     - name: Run Lint
       run: |
