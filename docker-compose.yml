@@ -19,6 +19,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       ALLOWED_HOSTS: "localhost,127.0.0.1"
       DJANGO_SETTINGS_MODULE: config.settings
+      DEBUG: "False"
     volumes:
       - .:/code
     ports:
