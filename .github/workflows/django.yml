@@ -26,6 +26,11 @@ jobs:
         docker compose up -d db
 
     - name: Run Web
+      env:
+       SECRET_KEY: ${{ secrets.SECRET_KEY }}
+       POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+       POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
       run: |
         docker compose up -d web
   
@@ -35,10 +40,5 @@ jobs:
           docker compose exec web flake8 .
  
     - name: Run Tests
-      env:
-       SECRET_KEY: ${{ secrets.SECRET_KEY }}
-       POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-       POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
       run: |
          docker compose run test
