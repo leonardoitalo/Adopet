@@ -16,9 +16,6 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Verificar o Dockerfile
-      run: cat ./docker/Dockerfile
-
     - name: Listar arquivos no diretório atual
       run: ls -la
     
