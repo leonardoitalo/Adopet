@@ -2,7 +2,7 @@ name: "Build and Push Docker Image"
 
 on: 
   push:
-    branches: [ "main" ]
+    branches: [ "main", "docker_images" ]
   workflow_dispatch:
 
 jobs: 
@@ -21,4 +21,4 @@ jobs:
     
     - name: Build docker image
       run: |
-        docker build --no-cache --target=production -t leonardoitalo/django_api:${{ github.sha }} .
+        docker build --target=production -t leonardoitalo/django_api:${{ github.sha }} .
