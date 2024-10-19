@@ -28,4 +28,4 @@ jobs:
       uses: docker/build-push-action@v6
       with:
         push: true
-        tags: leonardoitalo/django_api:latest,${{ github.sha }}
+        tags: leonardoitalo/django_api:latest,leonardoitalo/django_api:${{ github.sha }}
