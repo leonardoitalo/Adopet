@@ -1,8 +1,8 @@
-name: "Build"
+name: "Build and Push Docker Image"
 
 on: 
   push:
-    branches: [ "main" ]
+    branches: [ "main", "docker_images" ]
 
 jobs: 
   build:
@@ -15,6 +15,6 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     
-    - name: Build
+    - name: Build docker image
       run: |
-        docker compose build
+        docker build --target=production -t leonardoitalo/django_api:${{ github.sha }} .
