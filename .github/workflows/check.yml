@@ -1,14 +1,11 @@
-name: CI
+name: Checks code
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
 jobs:
-  build:
-
+  check:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
