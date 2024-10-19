@@ -17,7 +17,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
 
     - name: Listar arquivos no diretório atual
-      run: ls -la
+      run: cat dockerfile
     
     - name: Build docker image
       run: |
