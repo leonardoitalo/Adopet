@@ -21,4 +21,4 @@ jobs:
     
     - name: Build docker image
       run: |
-        docker build --target=production -t leonardoitalo/django_api:${{ github.sha }} .
+        docker build --no-cache --target=production -t leonardoitalo/django_api:${{ github.sha }} .
