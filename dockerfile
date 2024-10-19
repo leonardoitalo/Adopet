@@ -16,7 +16,7 @@ RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
 # Stage 2: Production environment (somente o necessário para produção)
-FROM python:3.12-slim
+FROM python:3.12-slim AS production
 
 WORKDIR /code
 
