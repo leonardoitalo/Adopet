@@ -33,6 +33,9 @@ services:
     environment:
       SECRET_KEY: ${SECRET_KEY}
       POSTGRES_NAME: ${POSTGRES_NAME}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
       DJANGO_SETTINGS_MODULE: config.settings
     volumes:
       - .:/code
