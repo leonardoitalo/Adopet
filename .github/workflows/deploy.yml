@@ -1,10 +1,8 @@
 name: Continuos Delivery EC2
 
 on:
-  workflow_run:
-    workflows: ["Build and Push Docker Image"] 
-    types:
-      - completed 
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   deploy:
@@ -41,7 +39,9 @@ jobs:
         key: ${{ secrets.EC2_SECRET_KEY }}
         port: ${{ secrets.EC2_PORT }}
         script: |
-          docker ps -q --filter "name=django_api" | grep -q . && docker stop django_api && docker rm django_api
+          docker stop $(docker ps -q)
+          docker rm $(docker ps -a -q)
+          docker image prune -a -f
           docker pull leonardoitalo/django_api:latest
           docker run -d -p 8000:8000 --env-file .env leonardoitalo/django_api:latest
       
