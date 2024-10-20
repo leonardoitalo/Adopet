@@ -32,6 +32,7 @@ services:
     command: pytest
     environment:
       SECRET_KEY: ${SECRET_KEY}
+      POSTGRES_NAME: ${POSTGRES_NAME}
       DJANGO_SETTINGS_MODULE: config.settings
     volumes:
       - .:/code
