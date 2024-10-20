@@ -25,7 +25,7 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", default="localhost").split(",")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["ec2-3-141-15-134.us-east-2.compute.amazonaws.com"]
 
 AUTH_USER_MODEL = "adopet.Tutor"
 
