@@ -12,4 +12,4 @@ test:
 # Regra alternativa
 # docker compose exec web python manage.py test
 
-ci: build test
+ci: build lint test

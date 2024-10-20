@@ -1,0 +1,47 @@
+name: Continuos Delivery EC2
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.12]
+        
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    # SCP to EC2
+    - name: SCP to EC2
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SECRET_KEY }}
+        port: ${{ secrets.EC2_PORT }} 
+        source: "requirements.txt, scripts"
+        target: /home/${{ secrets.EC2_USERNAME }}
+    
+    # Conect to EC2 server and run Docker commands
+    - name: SSH to EC2 for Docker Deployment
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SECRET_KEY }}
+        port: ${{ secrets.EC2_PORT }}
+        script: |
+          docker pull leonardoitalo/django_api:latest
+          docker stop django_api || true
+          docker rm django_api || true
+          docker run -d -p 8000:8000 --env-file .env leonardoitalo/django_api:latest
+      
+      
