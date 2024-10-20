@@ -26,7 +26,7 @@ jobs:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_SECRET_KEY }}
-        port: ${{ secrets.PORT }} 
+        port: ${{ secrets.EC2_PORT }} 
         source: "requirements.txt, scripts"
         target: /home/${{ secrets.EC2_USERNAME }}
     
@@ -37,11 +37,11 @@ jobs:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_SECRET_KEY }}
-        port: ${{ secrets.PORT }}
+        port: ${{ secrets.EC2_PORT }}
         script: |
           docker pull leonardoitalo/django_api:latest
           docker stop django_api || true
           docker rm django_api || true
-          docker run -d --name django_api -p 8000:8000 leonardoitalo/django_api:latest
+          docker run -d -p 8000:8000 --env-file .env leonardoitalo/django_api:latest
       
       
