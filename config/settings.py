@@ -93,10 +93,10 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "adopet_db",
-        "USER": "adopet_user",
-        "PASSWORD": "adopet_password",
-        "HOST": "db",
+        "NAME": config("POSTGRES_NAME"),
+        "USER": config("POSTGRES_USER"),
+        "PASSWORD": config("POSTGRES_PASSWORD"),
+        "HOST": config("POSTGRES_DB"),
         "PORT": "5432",
     }
 }
