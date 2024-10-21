@@ -8,7 +8,7 @@ class APIBaseTestCase(APITestCase):
 
     def setUp(self):
         self.user = Tutor.objects.create(
-            email="", name="Admin", password="admin"
+            email="admin@example.com", name="Admin", password="admin"
         )
         self.client.force_authenticate(user=self.user)
         cache.clear()
